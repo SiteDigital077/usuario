@@ -1,18 +1,14 @@
 {
     "name": "digitalsitesaas/usuario",
-    "description": "Generador de usuarios",
+    "description": "Módulo usuario",
+    "type": "project",
     "license": "MIT",
     "authors": [
         {
-            "name": "sitedigital",
-            "email": "info@sitedigital.com.co"
+            "name": "SiteDigital",
+            "email": "admin@sitedigital.com.co"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "DigitalsiteSaaS\\Usuario\\": "src/"
-        }
-        },
     "minimum-stability": "dev",
-   
+    "require": {}
 }
