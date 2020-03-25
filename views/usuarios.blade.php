@@ -1,6 +1,10 @@
 @extends ('adminsite.layout')
  
  @section('ContenidoSite-01')
+
+{{$website->uuid}}
+
+
   <div class="content-header">
    <ul class="nav-horizontal text-center">
     <li class="active">

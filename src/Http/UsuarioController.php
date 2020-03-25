@@ -7,30 +7,62 @@ use DB;
 use File;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
+use Input;
 use Illuminate\Support\Str;
 use GuzzleHttp\Client;
+use Hyn\Tenancy\Models\Hostname;
+use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Repositories\HostnameRepository;
+use Hyn\Tenancy\Repositories\WebsiteRepository;
 
 
 class UsuarioController extends Controller{
-	
-public function __construct(){
- $this->middleware('auth');
-}
+
+protected $tenantName = null;
+
+ public function __construct(){
+  $this->middleware('auth');
+
+  $hostname = app(\Hyn\Tenancy\Environment::class)->hostname();
+        if ($hostname){
+            $fqdn = $hostname->fqdn;
+            $this->tenantName = explode(".", $fqdn)[0];
+        }
+
+
+
+ }
+
 
 public function index() {
+ if(!$this->tenantName){
  $users = Usuario::all();
- return view('usuario::usuarios')->with('users',$users);
+}else{
+ $users = \DigitalsiteSaaS\Usuario\Tenant\Usuario::all();
+}
+$website = app(\Hyn\Tenancy\Environment::class)->website();
+
+ return view('usuario::usuarios')->with('users',$users)->with('website',$website);
 }
 
+
+public function crearusuario() {
+ return View('usuario::crear-usuario');
+}
+
+
 public function crear(){
- $price = DB::table('users')->max('id');
+ $price = Usuario::max('id');
  $suma = $price + 1;
  $path = public_path() . '/fichaimg/clientes/'.$suma;
  File::makeDirectory($path, 0777, true);
  $password = Input::get('password');
  $remember = Input::get('_token');
+ if(!$this->tenantName){
  $user = new Usuario;
+ }else{
+ $user = new \DigitalsiteSaaS\Usuario\Tenant\Usuario;	
+ }
  $user->name = Input::get('name');
  $user->last_name = Input::get('last_name');
  $user->email = Input::get('email');

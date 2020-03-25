@@ -2,16 +2,18 @@
 Route::group(['middleware' => ['auths','administrador']], function (){
 Auth::routes();
  Route::resource('gestion/usuario', 'DigitalsiteSaaS\Usuario\Http\UsuarioController');
- Route::resource('gestion/crear-usuario', 'DigitalsiteSaaS\Usuario\Http\UsuarioController');
+
  Route::get('gestion/usuario/editar/{id}', 'DigitalsiteSaaS\Usuario\Http\UsuarioController@editar');
  Route::post('gestion/usuario/actualizar/{id}', 'DigitalsiteSaaS\Usuario\Http\UsuarioController@actualizar');
  Route::post('gestion/usuario/crear', 'DigitalsiteSaaS\Usuario\Http\UsuarioController@crear');
  Route::get('gestion/usuario/eliminar/{id}', 'DigitalsiteSaaS\Usuario\Http\UsuarioController@eliminar');
  
- Route::get('/gestion/crear-usuario', function(){
- return View::make('usuario::crear-usuario');
- });
+ Route::get('gestion/crear-usuario', 'DigitalsiteSaaS\Usuario\Http\UsuarioController@crearusuario');
+
+
 });
+
+
 
 Route::post('/login', function(App\Http\Requests\AccesoRequest $Request){
  $credentials = Input::only('email', 'password'); 
