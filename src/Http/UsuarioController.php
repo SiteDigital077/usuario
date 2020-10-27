@@ -77,19 +77,31 @@ public function crear(){
 }  
 
 public function eliminar($id) {
+ if(!$this->tenantName){
  $user = Usuario::find($id);
+ }else{
+ $user = \DigitalsiteSaaS\Usuario\Tenant\Usuario::find($id);
+ }
  $user->delete();
  return Redirect('gestion/usuario')->with('status', 'ok_delete');
 }
 
 public function editar($id){
+ if(!$this->tenantName){
  $usuario = Usuario::find($id);
+ }else{
+ $usuario = \DigitalsiteSaaS\Usuario\Tenant\Usuario::find($id);
+ }
  return view('usuario::editar-usuario')->with('usuario', $usuario);
 }
 
 public function actualizar($id){
  $input = Input::all();
+ if(!$this->tenantName){
  $user = Usuario::find($id);
+ }else{
+ $usuario = \DigitalsiteSaaS\Usuario\Tenant\Usuario::find($id);	
+ }
  $user->name = Input::get('name');
  $user->last_name = Input::get('last_name');
  $user->email = Input::get('email');
