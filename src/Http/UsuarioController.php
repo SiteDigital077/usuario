@@ -1,4 +1,4 @@
-<?php
+  <?php
 
 namespace DigitalsiteSaaS\Usuario\Http;
 use DigitalsiteSaaS\Usuario\Usuario;
@@ -52,10 +52,14 @@ public function crearusuario() {
 
 
 public function crear(){
+ if(!$this->tenantName){
  $price = Usuario::max('id');
+ }else{
+ $price = \DigitalsiteSaaS\Usuario\Tenant\Usuario::max('id');
+ }
  $suma = $price + 1;
  $path = public_path() . '/fichaimg/clientes/'.$suma;
- File::makeDirectory($path, 0777, true);
+ File::makeDirectory($path, 0777, true, true);
  $password = Input::get('password');
  $remember = Input::get('_token');
  if(!$this->tenantName){
