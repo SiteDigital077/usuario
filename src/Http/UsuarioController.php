@@ -1,4 +1,4 @@
-  <?php
+<?php
 
 namespace DigitalsiteSaaS\Usuario\Http;
 use DigitalsiteSaaS\Usuario\Usuario;
